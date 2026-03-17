@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getTodos } from '../../services/todoService';
 
 interface Todo {
     id: number;
@@ -6,9 +7,23 @@ interface Todo {
     completed: boolean;
 }
 
+
 const TodoList = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState('');
+
+    useEffect(() => {
+        const fetchTodos = async () => {
+        try {
+            const data = await getTodos();
+            setTodos(data);
+        } catch (error) {
+            console.error(error);
+        }
+        };
+    
+        fetchTodos();
+    }, []);
 
     const handleAddTodo = () => {
         const newItem = {
