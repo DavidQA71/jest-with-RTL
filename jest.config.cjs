@@ -13,5 +13,17 @@ module.exports = {
 
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 
-  moduleFileExtensions: ["ts", "tsx", "js"]
+  moduleFileExtensions: ["ts", "tsx", "js"],
+
+  // Coverage report
+  collectCoverage: true,
+  coverageDirectory: "<rootDir>/coverage",
+  coverageReporters: ["text", "lcov", "html"],
+  collectCoverageFrom: [
+    "<rootDir>/src/**/*.{ts,tsx}",
+    "!<rootDir>/src/**/*.test.{ts,tsx}",
+    "!<rootDir>/src/setupTests.ts",
+    "!<rootDir>/src/main.tsx",
+    "!<rootDir>/src/vite-env.d.ts"
+  ]
 };

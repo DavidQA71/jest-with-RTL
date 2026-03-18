@@ -44,6 +44,9 @@ Este proyecto es un ejemplo sencillo de cómo escribir tests unitarios de compon
 - `npm test`  
   Ejecuta Jest en modo watch (según la configuración del proyecto).
 
+- `npm run test:coverage`  
+  Ejecuta los tests y genera el reporte de coverage en consola y en la carpeta `coverage/`.
+
 ### Notas sobre los tests y el mock del servicio
 
 - En la aplicación real, `TodoList` llama a `getTodos`, que internamente usa `fetch` contra JSONPlaceholder.
