@@ -46,12 +46,3 @@ Este proyecto es un ejemplo sencillo de cómo escribir tests unitarios de compon
 
 - `npm run test:coverage`  
   Ejecuta los tests y genera el reporte de coverage en consola y en la carpeta `coverage/`.
-
-### Notas sobre los tests y el mock del servicio
-
-- En la aplicación real, `TodoList` llama a `getTodos`, que internamente usa `fetch` contra JSONPlaceholder.
-- En los tests, el módulo `todoService` se mockea, por lo que **no se hacen peticiones reales** a la API:
-  - Esto hace que los tests sean **rápidos**, **deterministas** y **no dependan de la red**.
-  - Se comprueba que el componente:
-    - Llama al servicio (`expect(mockedGetTodos).toHaveBeenCalled()`).
-    - Renderiza correctamente los datos devueltos por el mock.
