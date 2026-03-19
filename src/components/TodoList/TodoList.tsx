@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getTodos } from '../../services/todoService';
-
-interface Todo {
-    id: number;
-    title: string;
-    completed: boolean;
-}
+import { addTodo, getTodos, type Todo } from '../../services/todoService';
 
 
 const TodoList = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState('');
+    const [feedback, setFeedback] = useState<string | null>(null);
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -25,14 +21,23 @@ const TodoList = () => {
         fetchTodos();
     }, []);
 
-    const handleAddTodo = () => {
-        const newItem = {
-            id: todos.length + 1,
-            title: newTodo,
-            completed: false
-        };
-        setTodos([...todos, newItem]);
-        setNewTodo('');
+    const handleAddTodo = async () => {
+        const title = newTodo.trim();
+        if (!title) return;
+
+        try {
+            setFeedback(null);
+            setIsError(false);
+
+            const createdTodo = await addTodo(title);
+            setTodos((prev) => [...prev, createdTodo]);
+            setNewTodo('');
+
+            setFeedback('Todo agregado con exito');
+        } catch {
+            setIsError(true);
+            setFeedback('Error al agregar el todo');
+        }
     };
 
     return (
@@ -44,6 +49,12 @@ const TodoList = () => {
                 onChange={(e) => setNewTodo(e.target.value)} 
                 placeholder='Add a new todo' />
             <button onClick={handleAddTodo}>Add Todo</button>
+
+            {feedback && (
+                <p role="status" aria-live="polite" data-testid="feedback" className={isError ? 'error' : ''}>
+                    {feedback}
+                </p>
+            )}
             <ul>
                 {todos.map((todo) => (
                     <li key={todo.id}>{todo.title}</li>
